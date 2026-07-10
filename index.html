@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>수금로사의 엑셀재판 — 랭킹</title>
+    <!-- 데스크톱과 동일한 디자인: 원본 style.css 를 그대로 사용(배포 시 복사됨) -->
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- 웹 전용 레이아웃 보정(입력폼이 없으므로 단일 패널 중앙 정렬) -->
+    <style>
+        body { padding: 20px 0; }
+        .web-wrap { max-width: 980px; margin: 0 auto; padding: 0 16px; }
+        .web-header { text-align: center; margin-bottom: 16px; }
+        .web-header h1 { font-size: 22px; color: var(--text-primary); margin: 0 0 4px; }
+        .web-header .web-updated { font-size: 12px; color: var(--text-secondary); }
+        .web-panel { display: block; }
+        /* 데스크톱 전용 조작 UI 는 웹에서 숨김 */
+        .panel-handle, .ranking-controls { display: none !important; }
+        .stats-dashboard { position: static; margin-bottom: 12px; }
+        .table-container { max-height: 78vh; }
+    </style>
+</head>
+
+<body>
+    <div class="web-wrap">
+        <div class="web-header">
+            <h1>🏆 수금로사의 엑셀재판</h1>
+            <div class="web-updated" id="web-updated">불러오는 중…</div>
+        </div>
+
+        <div class="right-panel web-panel">
+            <!-- 통계: 데스크톱과 동일 클래스 재사용 -->
+            <div id="stats-dashboard" class="stats-dashboard">
+                <div class="stat-item">
+                    <div class="stat-label">오늘 총합</div>
+                    <div id="stat-today" class="stat-value highlight" data-value="0">0 원</div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <div class="stat-label">등록 게임</div>
+                    <div id="stat-count" class="stat-value" data-value="0">0 개</div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <div class="stat-label">1위 금액</div>
+                    <div id="stat-top" class="stat-value" data-value="0">0 원</div>
+                </div>
+            </div>
+
+            <div class="tabs-and-controls">
+                <div class="tabs-container" id="tabs-container"></div>
+            </div>
+
+            <div class="table-container">
+                <table class="excel-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 70px;">순위</th>
+                            <th>게임명</th>
+                            <th style="width: 160px;">금액</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ranking-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 그래프 모달 (데스크톱과 동일 클래스) -->
+    <div id="graph-modal" class="graph-modal hidden">
+        <div class="graph-header">
+            <h3 id="graph-title">게임명</h3>
+            <span class="graph-subtitle">변동 추이</span>
+        </div>
+        <div class="graph-content">
+            <canvas id="history-chart"></canvas>
+        </div>
+    </div>
+
+    <!-- 공유 모듈(데스크톱과 동일 파일) -->
+    <script src="js/state.js"></script>
+    <script src="js/special-games.js"></script>
+    <script src="js/ranking-render.js"></script>
+    <script src="js/history-chart.js"></script>
+    <script src="js/web-app.js"></script>
+</body>
+
+</html>
