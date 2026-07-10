@@ -19,7 +19,6 @@
         tabs: [],
         specialGames: [],
         histories: {},          // { slug: [{amount,time}, ...] } — 그래프용(메모리)
-        todayTotal: 0,
         activeTab: localStorage.getItem('webActiveTab') || null,
         chart: null,
     };
@@ -71,25 +70,6 @@
         });
     }
 
-    function setStat(id, text, value) {
-        const el = document.getElementById(id);
-        if (!el) return;
-        if (String(el.dataset.value) === String(value)) return;
-        el.dataset.value = value;
-        el.textContent = text;
-        el.classList.remove('stat-update');
-        void el.offsetWidth;
-        el.classList.add('stat-update');
-    }
-
-    function showStats() {
-        const rows = currentTabData();
-        const top = rows.length ? rows[0].amount : 0;
-        setStat('stat-today', formatNumber(web.todayTotal) + ' 원', web.todayTotal);
-        setStat('stat-count', formatNumber(web.allData.length) + ' 개', web.allData.length);
-        setStat('stat-top', formatNumber(top) + ' 원', top);
-    }
-
     // ── 그래프(호버) ─────────────────────────────────────────
     async function showGraph(e, item) {
         const modal = document.getElementById('graph-modal');
@@ -126,12 +106,10 @@
             web.tabs = (rank.tabs && rank.tabs.length) ? rank.tabs : ['기본 탭'];
             web.specialGames = rank.special_games || [];
             web.histories = rank.histories || {};
-            web.todayTotal = rank.today_total || 0;
             if (!web.activeTab || !web.tabs.includes(web.activeTab)) web.activeTab = web.tabs[0];
 
             renderTabs();
             renderActiveTab();
-            showStats();
 
             const updated = rank.updated_at || '';
             const el = document.getElementById('web-updated');
